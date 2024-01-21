@@ -1,0 +1,62 @@
+print("Welcome to the ACN-BMI Calculator!")
+print("Please use a decimal point (.) when providing precise inputs.")
+def convert_units(Weight, WT, Height, HT):
+    if WT == "L":
+        Weight_in_lbs = Weight
+        Weight_in_kgs = round(Weight / 2.20462, 2)
+    else:
+        Weight_in_kgs = Weight
+        Weight_in_lbs = round(Weight * 2.20462, 2)
+
+    if HT == "2" or HT == "FEET":
+        Height_in_feet = Height
+        Height_in_meters = round(Height / 3.28, 2)
+    else:
+        Height_in_meters = Height
+        Height_in_feet = round(Height * 3.28, 2)
+
+    return Weight_in_kgs, Weight_in_lbs, Height_in_meters, Height_in_feet
+
+def calculate_bmi(Weight, Height):
+    bmi = Weight / (Height ** 2)
+    return round(bmi, 2)
+
+def get_bmi_category(bmi):
+    if bmi >= 30:
+        return "Obese"
+    elif bmi >= 25:
+        return "Overweight"
+    elif bmi >= 18.5:
+        return "Normal"
+    else:
+        return "Underweight"
+
+def calculate_and_print(Weight, WT, Height, HT):
+    Weight_in_kgs, Weight_in_lbs, Height_in_meters, Height_in_feet = convert_units(Weight, WT, Height, HT)
+
+    bmi = calculate_bmi(Weight_in_kgs, Height_in_meters)
+    category = get_bmi_category(bmi)
+
+    if (WT == "L" and HT == "1"):
+        print(f"Converted: {Weight_in_kgs} KGs and {Height_in_feet} feet.")
+    elif (WT == "L" and HT == "2"):
+        print(f"Converted: {Weight_in_kgs} KGs and {Height_in_meters} meters.")
+    elif (WT == "K" and HT == "1"):
+        print(f"Converted: {Weight_in_lbs} lbs and {Height_in_feet} feet.")
+    elif (WT == "K" and HT == "2"):
+        print(f"Converted: {Weight_in_lbs} lbs and {Height_in_meters} meters.")
+
+    print(f"Your body BMI is: {bmi} and you're {category}.")
+
+def get_user_input_and_calculate():
+    WT = input("Enter K for KGs or L for Lbs: ").upper()
+    Weight = float(input("Enter your weight: "))
+    HT = input("Choose your height unit. 1)Meters 2)Feet: ").upper()
+    Height = float(input("Enter your height: "))
+
+    calculate_and_print(Weight, WT, Height, HT)
+
+if __name__ == "__main__":
+    while True:
+        get_user_input_and_calculate()
+        print()
